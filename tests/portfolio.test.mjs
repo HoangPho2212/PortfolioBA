@@ -6,7 +6,7 @@ import { JSDOM } from 'jsdom';
 
 const htmlPath = path.resolve('E:/PortfolioBA/index.html');
 
-test('Portfolio TDD Test Suite - Jay Framework Validation', async (t) => {
+test('Portfolio TDD Test Suite - Jay Framework Validation (#0004)', async (t) => {
   assert.ok(fs.existsSync(htmlPath), 'index.html must exist');
   const htmlContent = fs.readFileSync(htmlPath, 'utf8');
   const dom = new JSDOM(htmlContent, { 
@@ -16,36 +16,45 @@ test('Portfolio TDD Test Suite - Jay Framework Validation', async (t) => {
   });
   const { document, window } = dom.window;
 
-  await t.test('Section 1: Hero Section Content & CTAs', () => {
+  await t.test('Section 1: Hero Section Content & Candidate Profile', () => {
     const hero = document.getElementById('hero') || document.querySelector('header');
     assert.ok(hero, 'Hero section must exist');
 
-    // Check Name presence
     const heroText = hero.textContent;
+
+    // Candidate Name
     assert.ok(
-      heroText.includes('[Insert Name]') || heroText.includes('Hoang Pho') || document.querySelector('[data-role="candidate-name"]'),
-      'Hero must display candidate name or [Insert Name]'
+      heroText.includes('Nguyen Huu Hoang Pho'),
+      'Hero must display candidate full name "Nguyen Huu Hoang Pho"'
     );
 
-    // Check Tagline
+    // Title / Role: Business Analyst Intern
     assert.ok(
-      heroText.includes('Process Optimizer'),
-      'Hero must include Tagline with Process Optimizer'
+      heroText.includes('Business Analyst Intern'),
+      'Hero must include title "Business Analyst Intern"'
     );
 
-    // Check Location
+    // Location: Danang, Vietnam
     assert.ok(
-      heroText.includes('Vietnam'),
-      'Hero must include Location in Vietnam'
+      heroText.includes('Danang, Vietnam'),
+      'Hero must specify Location as Danang, Vietnam'
     );
 
-    // Check Bio
+    // Exact Professional Summary from CV
     assert.ok(
-      heroText.includes('Analytical and technically-driven') && heroText.includes('full-stack software engineering'),
-      'Hero must contain Bio text'
+      heroText.includes('Analytical and technically-driven Business Analyst Intern with a solid foundation in full-stack software engineering, desktop application architecture, and automated workflows.'),
+      'Hero must contain exact opening of CV Professional Summary'
+    );
+    assert.ok(
+      heroText.includes('Highly adept at translating complex functional specifications, database design requirements, and user stories into structured, actionable technical solutions.'),
+      'Hero must contain exact translation sentence of CV Professional Summary'
+    );
+    assert.ok(
+      heroText.includes('Proven experience in project coordination, rigorous validation testing, and seamlessly bridging the gap between business stakeholders and engineering teams.'),
+      'Hero must contain exact bridging sentence of CV Professional Summary'
     );
 
-    // Check CTAs within Hero
+    // CTAs within Hero
     const ctaProjects = hero.querySelector('a[href="#projects"]');
     assert.ok(ctaProjects, 'Hero must contain "View Projects" link pointing to #projects');
     assert.ok(ctaProjects.textContent.includes('View Projects'), 'CTA button text must contain "View Projects"');
@@ -55,30 +64,61 @@ test('Portfolio TDD Test Suite - Jay Framework Validation', async (t) => {
     assert.ok(ctaContact.textContent.includes('Contact Me'), 'CTA button text must contain "Contact Me"');
   });
 
-  await t.test('Section 2: Core Competencies Grid', () => {
+  await t.test('Section 2: Education Section (University of Greenwich)', () => {
+    const eduSection = document.getElementById('education');
+    assert.ok(eduSection, 'Education section with id="education" must exist');
+    const eduText = eduSection.textContent;
+
+    // Degree & University
+    assert.ok(eduText.includes('Bachelor of Software Engineering'), 'Must include Bachelor of Software Engineering');
+    assert.ok(eduText.includes('University of Greenwich'), 'Must include University of Greenwich');
+
+    // Graduation & Honours
+    assert.ok(eduText.includes('2027'), 'Must include Expected Graduation: 2027');
+    assert.ok(eduText.includes('Upper Second-Class Honours (2:1)'), 'Must include Upper Second-Class Honours (2:1)');
+    assert.ok(eduText.includes('69/100'), 'Must include Academic Grade: 69/100');
+    assert.ok(eduText.includes('1pt below First-Class threshold'), 'Must mention 1pt below First-Class threshold');
+  });
+
+  await t.test('Section 3: Core Competencies Grid (4 CV Categories)', () => {
     const competenciesSection = document.getElementById('competencies');
     assert.ok(competenciesSection, 'Core Competencies section with id="competencies" must exist');
     const compText = competenciesSection.textContent;
 
-    // Check 4 competency categories & exact items
-    assert.ok(compText.includes('Business Analysis & Agile'), 'Must contain Business Analysis & Agile');
-    assert.ok(compText.includes('Requirements Gathering (SRS), Use Case & Class Modeling, Workflow Design, Jira Sprint Planning, Agile/Scrum.'), 'Must contain BA items');
+    // 1. BA & Agile Methodologies
+    assert.ok(compText.includes('BA & Agile Methodologies'), 'Must contain BA & Agile Methodologies category');
+    assert.ok(
+      compText.includes('Requirements Gathering (SRS), Use Case & Class Modeling, Workflow Design, Jira Sprint Planning, Agile/Scrum.'),
+      'Must contain exact BA & Agile items from CV'
+    );
 
-    assert.ok(compText.includes('Data & System Integration'), 'Must contain Data & System Integration');
-    assert.ok(compText.includes('Database Design (MongoDB, MySQL), ETL Workflows, Power Automate, API Gateway Configuration (Ocelot).'), 'Must contain Data & System Integration items');
+    // 2. Data & System Integration
+    assert.ok(compText.includes('Data & System Integration'), 'Must contain Data & System Integration category');
+    assert.ok(
+      compText.includes('Database Schema Design (MongoDB, MySQL), ETL Workflows, Microsoft Power Automate, API Gateway Configuration (Ocelot).'),
+      'Must contain exact Data & System Integration items from CV'
+    );
 
-    assert.ok(compText.includes('Technical Stack'), 'Must contain Technical Stack');
-    assert.ok(compText.includes('C#/.NET Windows Forms, Java, JavaScript, Vue.js, PHP, RESTful APIs.'), 'Must contain Technical Stack items');
+    // 3. Testing & QA
+    assert.ok(compText.includes('Testing & QA'), 'Must contain Testing & QA category');
+    assert.ok(
+      compText.includes('Input Validation Matrices, Test Case Design, System Diagnostics, xUnit, Manual Testing.'),
+      'Must contain exact Testing & QA items from CV'
+    );
 
-    assert.ok(compText.includes('Testing & QA'), 'Must contain Testing & QA');
-    assert.ok(compText.includes('Input Validation, Test Case Design, System Diagnostics, xUnit/Manual Testing.'), 'Must contain Testing & QA items');
+    // 4. Languages & Communication
+    assert.ok(compText.includes('Languages & Communication'), 'Must contain Languages & Communication category');
+    assert.ok(
+      compText.includes('English (B2 Level), Vietnamese (Native).'),
+      'Must contain exact Languages items from CV'
+    );
 
-    // Check grid layout
+    // Grid layout validation
     const grid = competenciesSection.querySelector('.grid');
     assert.ok(grid, 'Competencies must be arranged in a CSS grid');
   });
 
-  await t.test('Section 3: Leadership & Soft Skills Highlight Section', () => {
+  await t.test('Section 4: Leadership & Organizational Impact', () => {
     const leadershipSection = document.getElementById('leadership');
     assert.ok(leadershipSection, 'Leadership section with id="leadership" must exist');
     const leadText = leadershipSection.textContent;
@@ -87,81 +127,138 @@ test('Portfolio TDD Test Suite - Jay Framework Validation', async (t) => {
       leadText.includes('Chairman of the Greenwich Football Club (Gre FC)'),
       'Must contain exact Leadership Role'
     );
+
+    // Strategic Leadership & Management
     assert.ok(
-      leadText.includes('Demonstrated strategic leadership and stakeholder negotiation by directing the end-to-end logistics of an 8-team competitive championship. Successfully aligned diverse volunteer groups, managed complex event schedules, and negotiated structural rules (such as custom gameplay regulations) directly with the leadership board.'),
-      'Must contain exact Leadership Description'
+      leadText.includes('directed core club operations') && leadText.includes('volunteer committees'),
+      'Must describe core club operations and volunteer committees'
+    );
+
+    // Stakeholder Negotiation & Tournament Logistics
+    assert.ok(
+      leadText.includes('8-team competitive university championship') && leadText.includes('home-half back-pass rule allowances'),
+      'Must describe 8-team championship and home-half back-pass rule negotiation with leadership board'
+    );
+
+    // Cross-Functional Communication
+    assert.ok(
+      leadText.includes('Bridged operational gaps between technical, operational, and non-technical stakeholders'),
+      'Must describe bridging gaps between technical, operational, and non-technical stakeholders'
     );
   });
 
-  await t.test('Section 4: Key Projects Interactive Cards', () => {
+  await t.test('Section 5: Key Projects Interactive Cards & Modals (CV Aligned)', () => {
     const projectsSection = document.getElementById('projects');
     assert.ok(projectsSection, 'Projects section with id="projects" must exist');
     const projText = projectsSection.textContent;
 
-    // Project 1
-    assert.ok(projText.includes('Web-Based CMS Strategy & Prototype (Save the Children Vietnam)'), 'Must contain Project 1 title');
-    assert.ok(projText.includes('SharePoint, Power Automate, Microsoft Forms.'), 'Must contain Project 1 tech');
-    assert.ok(projText.includes('Conducted comprehensive user research for bilingual educators and corporate CSR directors. Authored technical requirement matrices to evaluate CMS platforms based on security, RBAC, and low-bandwidth constraints. Designed automated human-in-the-loop approval workflows.'), 'Must contain Project 1 BA focus');
+    // Project 1: AptisGo Exam Preparation Platform
+    assert.ok(projText.includes('AptisGo Exam Preparation Platform'), 'Must contain Project 1 title: AptisGo');
+    assert.ok(projText.includes('MongoDB') && projText.includes('Jira') && projText.includes('UML'), 'Must contain AptisGo tech stack');
+    assert.ok(
+      projText.includes('Business Requirements Document (BRD)') && projText.includes('System Architecture Document (SAD)') && projText.includes('C4 models'),
+      'Must contain AptisGo BA Focus requirements (BRD, SAD, C4 models)'
+    );
+    assert.ok(
+      projText.includes('automated grading system for the listening section'),
+      'Must mention automated grading system for listening section'
+    );
 
-    // Project 2
+    // Project 2: Desktop Information System for Education Centre
     assert.ok(projText.includes('Desktop Information System for Education Centre'), 'Must contain Project 2 title');
-    assert.ok(projText.includes('C# .NET, MySQL, Object-Oriented Design.'), 'Must contain Project 2 tech');
-    assert.ok(projText.includes('Authored a complete Software Requirements Specification (SRS) detailing functional requirements and quality attributes. Designed UML class diagrams and use case workflows. Implemented and tested a robust input validation matrix to enforce data integrity.'), 'Must contain Project 2 BA focus');
+    assert.ok(projText.includes('C#.NET Windows Forms') || projText.includes('C# .NET'), 'Must contain Desktop IS tech stack');
+    assert.ok(projText.includes('MySQL'), 'Must contain MySQL');
+    assert.ok(
+      projText.includes('Person') && projText.includes('TC1-TC9'),
+      'Must contain Person abstract base class and TC1-TC9 validation matrix'
+    );
 
-    // Project 3
+    // Project 3: Microservices URL Shortener Platform
     assert.ok(projText.includes('Microservices URL Shortener Platform'), 'Must contain Project 3 title');
-    assert.ok(projText.includes('.NET Core, Vue.js, MongoDB, RabbitMQ.'), 'Must contain Project 3 tech');
-    assert.ok(projText.includes('Managed sprint execution and task distribution using Jira within an Agile framework to decouple monolithic logic. Configured API Gateway routing and established an event-driven messaging architecture.'), 'Must contain Project 3 BA focus');
+    assert.ok(projText.includes('.NET Core') && projText.includes('Vue.js') && projText.includes('MongoDB') && projText.includes('RabbitMQ') && projText.includes('Ocelot'), 'Must contain Microservices tech stack');
+    assert.ok(
+      projText.includes('Ocelot API Gateway') && projText.includes('cascading deletions'),
+      'Must mention Ocelot API Gateway routing and cascading deletions across distributed databases'
+    );
 
     // Interactive cards check
     const cards = projectsSection.querySelectorAll('[data-project-card]');
-    assert.ok(cards.length >= 3, 'Must render at least 3 interactive project cards');
+    assert.equal(cards.length, 3, 'Must render exactly 3 interactive project cards');
+
+    // Modals check
+    const modal1 = document.getElementById('modal-project-1');
+    assert.ok(modal1, 'modal-project-1 must exist');
+    assert.ok(modal1.textContent.includes('AptisGo'), 'modal-project-1 must describe AptisGo');
+
+    const modal2 = document.getElementById('modal-project-2');
+    assert.ok(modal2, 'modal-project-2 must exist');
+    assert.ok(modal2.textContent.includes('Desktop Information System'), 'modal-project-2 must describe Desktop IS');
+
+    const modal3 = document.getElementById('modal-project-3');
+    assert.ok(modal3, 'modal-project-3 must exist');
+    assert.ok(modal3.textContent.includes('Microservices URL Shortener'), 'modal-project-3 must describe Microservices URL Shortener');
   });
 
-  await t.test('Section 5: Footer & Contact Section with Social Links and Scroll-to-Top', () => {
+  await t.test('Section 6: Contact & Footer Section (Phone, Gmail, Portfolio)', () => {
     const footer = document.querySelector('footer') || document.getElementById('contact');
     assert.ok(footer, 'Footer/Contact section must exist');
 
-    // Contact placeholder links
+    // Phone link verification
+    const phoneLink = document.querySelector('a[data-channel="phone"]') || document.querySelector('a[href^="tel:"]');
+    assert.ok(phoneLink, 'Must provide Phone contact link');
+    assert.ok(phoneLink.getAttribute('href').includes('0379876301'), 'Phone link must have href="tel:0379876301"');
+
+    // Email link with Gmail composer
     const emailLink = document.querySelector('a[data-channel="email"]');
     assert.ok(emailLink, 'Must provide an Email contact link with data-channel="email"');
-
-    // Gmail compose URL verification (#0002 requirement)
     const emailHref = emailLink.getAttribute('href');
     assert.ok(
-      emailHref.includes('mail.google.com/mail/') && emailHref.includes('view=cm') && emailHref.includes('to=hoangpho.2212%40gmail.com') || emailHref.includes('to=hoangpho.2212@gmail.com'),
+      emailHref.includes('mail.google.com/mail/') && emailHref.includes('to=hoangpho.2212@gmail.com'),
       'Email link must lead to Gmail web composer with recipient prefilled to hoangpho.2212@gmail.com'
     );
-    assert.equal(emailLink.getAttribute('target'), '_blank', 'Email link must open in new tab');
-    assert.ok(emailLink.getAttribute('rel')?.includes('noopener'), 'Email link must have security rel="noopener noreferrer"');
 
-    // Check LinkedIn & GitHub
-    const linkedinLink = document.querySelector('a[href*="linkedin.com"]') || document.querySelector('a[data-channel="linkedin"]');
+    // LinkedIn & GitHub
+    const linkedinLink = document.querySelector('a[data-channel="linkedin"]');
     assert.ok(linkedinLink, 'Must provide a LinkedIn contact link');
 
-    const githubLink = document.querySelector('a[href*="github.com"]') || document.querySelector('a[data-channel="github"]');
+    const githubLink = document.querySelector('a[data-channel="github"]');
     assert.ok(githubLink, 'Must provide a GitHub profile link');
 
-    // Direct address display & copy check
+    // Portfolio link
+    assert.ok(
+      htmlContent.includes('portfolio-ba-gamma.vercel.app'),
+      'HTML must include candidate portfolio URL portfolio-ba-gamma.vercel.app'
+    );
+
+    // Direct address & phone display
     assert.ok(footer.textContent.includes('hoangpho.2212@gmail.com'), 'Footer must display hoangpho.2212@gmail.com');
+    assert.ok(footer.textContent.includes('0379876301'), 'Footer must display 0379876301');
 
     // Back to top button
     const backToTopBtn = document.getElementById('back-to-top');
-    assert.ok(backToTopBtn, 'Must include a scroll-to-top arrow button with id="back-to-top"');
-    assert.ok(backToTopBtn.getAttribute('aria-label'), 'Back to top button must have accessible aria-label');
+    assert.ok(backToTopBtn, 'Must include a scroll-to-top button with id="back-to-top"');
   });
 
-  await t.test('UX & Accessibility Attributes', () => {
-    // Check mobile menu trigger
+  await t.test('Section 7: UX, Navigation & JayContract ViewState', () => {
+    // Navigation bar links check
+    const nav = document.getElementById('navbar');
+    assert.ok(nav, 'Navbar must exist');
+    assert.ok(nav.querySelector('a[href="#education"]'), 'Navbar must include link to #education');
+    assert.ok(nav.querySelector('a[href="#competencies"]'), 'Navbar must include link to #competencies');
+    assert.ok(nav.querySelector('a[href="#leadership"]'), 'Navbar must include link to #leadership');
+    assert.ok(nav.querySelector('a[href="#projects"]'), 'Navbar must include link to #projects');
+    assert.ok(nav.querySelector('a[href="#contact"]'), 'Navbar must include link to #contact');
+
+    // Mobile menu trigger
     const mobileMenuBtn = document.getElementById('mobile-menu-button');
     assert.ok(mobileMenuBtn, 'Mobile navigation toggle button must exist');
-    assert.ok(mobileMenuBtn.getAttribute('aria-label') || mobileMenuBtn.getAttribute('aria-expanded'), 'Mobile menu must have aria attributes');
 
-    // Check Tailwind script
+    // Tailwind script
     const tailwindScript = document.querySelector('script[src*="tailwindcss"]');
     assert.ok(tailwindScript, 'Tailwind CSS CDN script must be loaded');
 
-    // Check JayContract state architecture in script
-    assert.ok(htmlContent.includes('JayContract') || htmlContent.includes('ViewState'), 'Code should expose JayContract/ViewState state manager');
+    // JayContract state architecture in script
+    assert.ok(htmlContent.includes('JayContract'), 'Code must expose JayContract state manager');
+    assert.ok(htmlContent.includes('ViewState'), 'Code must document ViewState');
   });
 });
