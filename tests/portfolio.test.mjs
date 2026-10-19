@@ -267,6 +267,22 @@ test('Portfolio TDD Test Suite - Jay Framework Validation (#0005 Grounded Tone)'
     assert.ok(m1Text.includes('AP-1') && m1Text.includes('AP-12'), 'modal-project-1 must detail Jira sprint epics AP-1 through AP-12');
     assert.ok(m1Text.includes('phonhhgcd'), 'modal-project-1 must reference assignee account phonhhgcd');
 
+    // Modal 1 AP Sprint 1 Backlog & Work Items Breakdown (#0008)
+    const modalSprint1Img = modal1.querySelector('img[src*="jira-sprint1-backlog.png"]');
+    assert.ok(modalSprint1Img, 'modal-project-1 must embed the AP Sprint 1 backlog Jira screenshot');
+    assert.ok(
+      m1Text.includes('AP Sprint 1') && (m1Text.includes('16 story points') || m1Text.includes('16 Story Points') || m1Text.includes('16 Points') || m1Text.includes('16 Total Story Points')),
+      'modal-project-1 must highlight AP Sprint 1 with 16 story points'
+    );
+    assert.ok(
+      m1Text.includes('AP-14') && m1Text.includes('AP-21'),
+      'modal-project-1 must detail work items AP-14 through AP-21'
+    );
+    assert.ok(
+      m1Text.includes('AG-101') && m1Text.includes('AG-108'),
+      'modal-project-1 must detail task codes AG-101 through AG-108'
+    );
+
     const modal2 = document.getElementById('modal-project-2');
     assert.ok(modal2, 'modal-project-2 must exist');
     assert.ok(modal2.textContent.includes('Desktop Information System'), 'modal-project-2 must describe Desktop IS');

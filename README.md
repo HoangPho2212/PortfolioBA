@@ -85,6 +85,7 @@ The portfolio is structured around the four competency groups specified in the c
 - **Verified Deliverables & Workspaces**:
   - 🎨 **Figma Interactive Prototype**: [market-matrix-30692691.figma.site](https://market-matrix-30692691.figma.site/)
   - 🚀 **Jira Sprint Roadmap Timeline**: Verified Atlassian Gantt roadmap export (`assets/aptisgo/jira-roadmap-timeline.png`) detailing phases `AP-1` through `AP-12` under assignee account `phonhhgcd`.
+  - 📋 **Jira AP Sprint 1 Backlog**: Verified Atlassian Jira Backlog screenshot (`assets/aptisgo/jira-sprint1-backlog.png`) detailing 8 work items (`AP-14` through `AP-21`) and 16 committed story points.
 - **BA Deliverables & Engineering Specifications (COMP1682)**:
   - **User Stories (US01–US10)**: 10 user stories with story point estimations (57 total points), persona mappings, and acceptance criteria.
   - **MoSCoW Prioritization**: Structured breakdown into Must (FR01–FR06, Sprints 1 & 2), Should (FR07–FR08, Sprint 2), Could (FR09, Sprint 3), and Won't (FR10 real-time AI speech evaluation).
@@ -183,3 +184,4 @@ All architectural and engineering decisions are documented under `./design-log/`
 - [#0005: Grounding Portfolio Tone and Eliminating Overclaims](design-log/0005-grounding-tone-and-overclaim-reduction.md)
 - [#0006: AptisGo Flagship Showcase & Comprehensive BA Deliverables Integration](design-log/0006-aptisgo-flagship-and-comprehensive-spec.md)
 - [#0007: Figma Prototype Integration & Private Jira Roadmap Timeline](design-log/0007-figma-url-and-jira-timeline-integration.md)
+- [#0008: AptisGo Sprint 1 Backlog & Work Items Integration](design-log/0008-aptisgo-sprint-1-backlog-integration.md)
