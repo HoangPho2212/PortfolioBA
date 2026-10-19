@@ -6,7 +6,7 @@ import { JSDOM } from 'jsdom';
 
 const htmlPath = path.resolve('E:/PortfolioBA/index.html');
 
-test('Portfolio TDD Test Suite - Jay Framework Validation (#0004)', async (t) => {
+test('Portfolio TDD Test Suite - Jay Framework Validation (#0005 Grounded Tone)', async (t) => {
   assert.ok(fs.existsSync(htmlPath), 'index.html must exist');
   const htmlContent = fs.readFileSync(htmlPath, 'utf8');
   const dom = new JSDOM(htmlContent, { 
@@ -16,7 +16,7 @@ test('Portfolio TDD Test Suite - Jay Framework Validation (#0004)', async (t) =>
   });
   const { document, window } = dom.window;
 
-  await t.test('Section 1: Hero Section Content & Candidate Profile', () => {
+  await t.test('Section 1: Hero Section Content & Candidate Profile (Grounded & Authentic)', () => {
     const hero = document.getElementById('hero') || document.querySelector('header');
     assert.ok(hero, 'Hero section must exist');
 
@@ -40,18 +40,42 @@ test('Portfolio TDD Test Suite - Jay Framework Validation (#0004)', async (t) =>
       'Hero must specify Location as Danang, Vietnam'
     );
 
-    // Exact Professional Summary from CV
+    // Grounded Professional Summary (eliminating overclaims)
     assert.ok(
-      heroText.includes('Analytical and technically-driven Business Analyst Intern with a solid foundation in full-stack software engineering, desktop application architecture, and automated workflows.'),
-      'Hero must contain exact opening of CV Professional Summary'
+      heroText.includes('Business Analyst Intern and Software Engineering student at the University of Greenwich'),
+      'Hero must contain honest education & role positioning'
     );
     assert.ok(
-      heroText.includes('Highly adept at translating complex functional specifications, database design requirements, and user stories into structured, actionable technical solutions.'),
-      'Hero must contain exact translation sentence of CV Professional Summary'
+      heroText.includes('requirements analysis, and database design'),
+      'Hero must highlight core analytical skills'
     );
     assert.ok(
-      heroText.includes('Proven experience in project coordination, rigorous validation testing, and seamlessly bridging the gap between business stakeholders and engineering teams.'),
-      'Hero must contain exact bridging sentence of CV Professional Summary'
+      heroText.includes('bridging communication between business and technical teams'),
+      'Hero must emphasize bridging capability grounded in student/project experience'
+    );
+
+    // Anti-overclaiming assertions
+    assert.ok(
+      !heroText.includes('Proven experience'),
+      'Hero must NOT overclaim "Proven experience"'
+    );
+    assert.ok(
+      !heroText.includes('Highly adept'),
+      'Hero must NOT use hyperbolic "Highly adept"'
+    );
+    assert.ok(
+      !heroText.includes('Analytical and technically-driven Business Analyst Intern'),
+      'Hero must NOT use overclaiming "Analytical and technically-driven Business Analyst Intern"'
+    );
+    assert.ok(
+      !heroText.includes('Verified BA Intern'),
+      'Hero must NOT display gimmicky "Verified BA Intern"'
+    );
+
+    // Genuine availability status
+    assert.ok(
+      heroText.includes('Available for Internship'),
+      'Hero must indicate genuine availability "Available for Internship"'
     );
 
     // CTAs within Hero
@@ -118,7 +142,7 @@ test('Portfolio TDD Test Suite - Jay Framework Validation (#0004)', async (t) =>
     assert.ok(grid, 'Competencies must be arranged in a CSS grid');
   });
 
-  await t.test('Section 4: Leadership & Organizational Impact', () => {
+  await t.test('Section 4: Leadership & Student Organization Impact (Grounded)', () => {
     const leadershipSection = document.getElementById('leadership');
     assert.ok(leadershipSection, 'Leadership section with id="leadership" must exist');
     const leadText = leadershipSection.textContent;
@@ -126,6 +150,16 @@ test('Portfolio TDD Test Suite - Jay Framework Validation (#0004)', async (t) =>
     assert.ok(
       leadText.includes('Chairman of the Greenwich Football Club (Gre FC)'),
       'Must contain exact Leadership Role'
+    );
+
+    // Grounded tag assertions (no executive hyperbole)
+    assert.ok(
+      !leadText.includes('Executive Governance'),
+      'Leadership must not overclaim "Executive Governance"'
+    );
+    assert.ok(
+      !htmlContent.includes('PROVEN GOVERNANCE'),
+      'HTML must not claim "PROVEN GOVERNANCE"'
     );
 
     // Strategic Leadership & Management
@@ -152,9 +186,13 @@ test('Portfolio TDD Test Suite - Jay Framework Validation (#0004)', async (t) =>
     assert.ok(projectsSection, 'Projects section with id="projects" must exist');
     const projText = projectsSection.textContent;
 
-    // Project 1: AptisGo Exam Preparation Platform
+    // Project 1: AptisGo Exam Preparation Platform (Flagship Project)
     assert.ok(projText.includes('AptisGo Exam Preparation Platform'), 'Must contain Project 1 title: AptisGo');
     assert.ok(projText.includes('MongoDB') && projText.includes('Jira') && projText.includes('UML'), 'Must contain AptisGo tech stack');
+    assert.ok(
+      projText.includes('Flagship') || projText.includes('⭐') || projText.includes('★'),
+      'AptisGo must be highlighted with a star or Flagship badge'
+    );
     assert.ok(
       projText.includes('Business Requirements Document (BRD)') && projText.includes('System Architecture Document (SAD)') && projText.includes('C4 models'),
       'Must contain AptisGo BA Focus requirements (BRD, SAD, C4 models)'
@@ -162,6 +200,22 @@ test('Portfolio TDD Test Suite - Jay Framework Validation (#0004)', async (t) =>
     assert.ok(
       projText.includes('automated grading system for the listening section'),
       'Must mention automated grading system for listening section'
+    );
+
+    // Figma & Jira Live Links (#0007)
+    const figmaLink = document.querySelector('a[data-channel="figma"]');
+    assert.ok(figmaLink, 'Must provide Figma prototype link with data-channel="figma"');
+    assert.equal(
+      figmaLink.getAttribute('href'),
+      'https://market-matrix-30692691.figma.site/',
+      'Figma link must point to live prototype: https://market-matrix-30692691.figma.site/'
+    );
+
+    const jiraLink = document.querySelector('a[data-channel="jira"]');
+    assert.ok(jiraLink, 'Must provide Jira link with data-channel="jira"');
+    assert.ok(
+      jiraLink.getAttribute('href').includes('jira-roadmap-timeline.png') || jiraLink.getAttribute('href').includes('#jira-roadmap'),
+      'Jira link must point to verified roadmap asset or modal anchor'
     );
 
     // Project 2: Desktop Information System for Education Centre
@@ -189,6 +243,29 @@ test('Portfolio TDD Test Suite - Jay Framework Validation (#0004)', async (t) =>
     const modal1 = document.getElementById('modal-project-1');
     assert.ok(modal1, 'modal-project-1 must exist');
     assert.ok(modal1.textContent.includes('AptisGo'), 'modal-project-1 must describe AptisGo');
+
+    // Modal 1 Deep-Dive BA Deliverables Check
+    const m1Text = modal1.textContent;
+    assert.ok(m1Text.includes('US01') && m1Text.includes('US10'), 'modal-project-1 must include User Stories US01 to US10');
+    assert.ok(m1Text.includes('MoSCoW') || (m1Text.includes('Must Have') && m1Text.includes('Should Have')), 'modal-project-1 must include MoSCoW prioritization');
+    assert.ok(m1Text.includes('NFR01') && m1Text.includes('NFR02'), 'modal-project-1 must include Non-Functional Requirements NFR01-NFR05');
+    assert.ok(m1Text.includes('C4') || modal1.querySelector('img[src*="c4"]'), 'modal-project-1 must showcase C4 architectural models');
+    
+    // Modal 1 Live Figma & Verified Jira Roadmap Timeline (#0007)
+    const modalFigmaLinks = modal1.querySelectorAll('a[data-channel="figma"]');
+    assert.ok(modalFigmaLinks.length > 0, 'modal-project-1 must include Figma link');
+    modalFigmaLinks.forEach(link => {
+      assert.equal(
+        link.getAttribute('href'),
+        'https://market-matrix-30692691.figma.site/',
+        'Modal Figma link must point to https://market-matrix-30692691.figma.site/'
+      );
+    });
+
+    const modalJiraImg = modal1.querySelector('img[src*="jira-roadmap-timeline.png"]');
+    assert.ok(modalJiraImg, 'modal-project-1 must embed the Jira roadmap timeline graphic');
+    assert.ok(m1Text.includes('AP-1') && m1Text.includes('AP-12'), 'modal-project-1 must detail Jira sprint epics AP-1 through AP-12');
+    assert.ok(m1Text.includes('phonhhgcd'), 'modal-project-1 must reference assignee account phonhhgcd');
 
     const modal2 = document.getElementById('modal-project-2');
     assert.ok(modal2, 'modal-project-2 must exist');

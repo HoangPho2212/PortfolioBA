@@ -14,11 +14,11 @@
 
 ---
 
-## 🌟 Executive Overview
+## 🌟 Candidate Overview
 
-This repository houses the personal portfolio website of **Nguyen Huu Hoang Pho**, an analytical and technically-driven Business Analyst Intern with a solid engineering foundation in full-stack software development, desktop architecture, and automated data workflows.
+This repository houses the personal portfolio website of **Nguyen Huu Hoang Pho**, a Business Analyst Intern and Software Engineering student at the University of Greenwich with a practical foundation in requirements analysis, database design, and agile workflows.
 
-Unlike traditional non-technical analysts, this profile bridges the gap between high-level business stakeholder requirements and low-level code implementation, turning ambiguous requirements into structured SRS documents, UML models, database schemas, and API gateway routing rules.
+With a software engineering background, this profile helps bridge communication between business requirements and technical implementation, translating stakeholder needs into structured SRS documents, UML models, database schemas, and API gateway configurations.
 
 ---
 
@@ -80,15 +80,19 @@ The portfolio is structured around the four competency groups specified in the c
 
 ## 🚀 Key Project Cases
 
-### 1. AptisGo Exam Preparation Platform
-- **Tech Stack**: MongoDB | Jira | UML
-- **BA Focus & Requirements**:
-  - Produced comprehensive system documentation including Business Requirements Document (BRD), Software Requirements Specification (SRS), System Architecture Document (SAD), and User Stories.
-  - Designed system architecture utilizing Class/ERD diagrams and C4 models.
-  - Managed Agile sprint schedules via Jira.
-- **System Implementation**:
-  - Engineered a robust web application for Aptis exam preparation featuring an automated grading system for the listening section.
-  - Implemented flexible NoSQL data storage solutions using MongoDB to accommodate complex, dynamic exam structures.
+### 1. ⭐ AptisGo Exam Preparation Platform (Flagship Capstone Project)
+- **Tech Stack**: MongoDB | Jira | UML | React SPA | Node/Express | Web MediaRecorder
+- **Verified Deliverables & Workspaces**:
+  - 🎨 **Figma Interactive Prototype**: [market-matrix-30692691.figma.site](https://market-matrix-30692691.figma.site/)
+  - 🚀 **Jira Sprint Roadmap Timeline**: Verified Atlassian Gantt roadmap export (`assets/aptisgo/jira-roadmap-timeline.png`) detailing phases `AP-1` through `AP-12` under assignee account `phonhhgcd`.
+- **BA Deliverables & Engineering Specifications (COMP1682)**:
+  - **User Stories (US01–US10)**: 10 user stories with story point estimations (57 total points), persona mappings, and acceptance criteria.
+  - **MoSCoW Prioritization**: Structured breakdown into Must (FR01–FR06, Sprints 1 & 2), Should (FR07–FR08, Sprint 2), Could (FR09, Sprint 3), and Won't (FR10 real-time AI speech evaluation).
+  - **Non-Functional Requirements (NFR01–NFR05)**: Sub-500ms autoScore latency, bcrypt salt >= 10, 10MB audio ceiling, SUS score >= 75, WCAG 2.1 Level AA accessibility.
+  - **C4 Architecture & SSM**: C4 Level 1 System Context Diagram, C4 Level 2 Container Diagram, and Problem Domain Rich Picture.
+  - **Data Design**: MongoDB BSON Document Model with embedded question sub-documents for single-operation query locality.
+  - **High-Fidelity Wireframes**: Screens 1 through 9 with technical annotations (RBAC login, placement, dashboard, testing engine, essay editor, lecturer review queue, admin test bank).
+  - **System Implementation**: Engineered automated listening grading engine and responsive study roadmap planner.
 
 ### 2. Desktop Information System for Education Centre
 - **Tech Stack**: C#.NET Windows Forms | MySQL
@@ -176,3 +180,6 @@ All architectural and engineering decisions are documented under `./design-log/`
 - [#0002: Gmail Web Composer Integration for Recipient hoangpho.2212@gmail.com](design-log/0002-gmail-integration.md)
 - [#0003: Project Documentation and Git Governance](design-log/0003-project-documentation-and-git-governance.md)
 - [#0004: Synchronizing Portfolio Website with Candidate CV (Nguyen Huu Hoang Pho)](design-log/0004-cv-sync-and-content-alignment.md)
+- [#0005: Grounding Portfolio Tone and Eliminating Overclaims](design-log/0005-grounding-tone-and-overclaim-reduction.md)
+- [#0006: AptisGo Flagship Showcase & Comprehensive BA Deliverables Integration](design-log/0006-aptisgo-flagship-and-comprehensive-spec.md)
+- [#0007: Figma Prototype Integration & Private Jira Roadmap Timeline](design-log/0007-figma-url-and-jira-timeline-integration.md)
